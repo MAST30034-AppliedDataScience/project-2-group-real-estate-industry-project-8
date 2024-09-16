@@ -71,14 +71,16 @@ for year in years:
     local_output_dir = f"{output_dir}/{year}_GCP_SA2_for_VIC_short-header"
 
     # retrieve the ABS data
-    urlretrieve(ABS_DATA_LINK, local_zip_path) 
+    urllib.request.urlretrieve(ABS_DATA_LINK, local_zip_path) 
     with zipfile.ZipFile(local_zip_path, 'r') as zip_ref:
         zip_ref.extractall(local_output_dir)
 
     # delete orginal zip file  
     os.remove(local_zip_path)
 
-    
+print("ABS Data Download Complete")
+
+
 # SECTION: download the train station data - (METROPOLITIAN STATIONS)
 
 # output directories
@@ -115,3 +117,25 @@ urllib.request.urlretrieve(CRIME_RECORDS_LINK, local_output_dir)
 
 print("Crime Data Download Complete")
 #https://files.crimestatistics.vic.gov.au/2024-06/Data_Tables_LGA_Criminal_Incidents_Year_Ending_March_2024.xlsx
+
+
+# SECTION: download Open Space data
+BASE_URL = "https://opendata.arcgis.com/datasets/"
+FILE_NAME = "da1c06e3ab6948fcb56de4bb3c722449_0.zip"
+
+
+DATA_LINK = BASE_URL + FILE_NAME
+
+# output directories
+local_zip_path = f"{output_dir}/{FILE_NAME}"
+local_output_dir = f"{output_dir}/Open_Space"
+
+# retrieve the ABS data
+urllib.request.urlretrieve(DATA_LINK, local_zip_path) 
+with zipfile.ZipFile(local_zip_path, 'r') as zip_ref:
+   zip_ref.extractall(local_output_dir)
+
+# delete orginal zip file  
+os.remove(local_zip_path)
+
+print("Open Space Data Download Complete")

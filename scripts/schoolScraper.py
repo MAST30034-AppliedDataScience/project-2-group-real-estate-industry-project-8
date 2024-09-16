@@ -113,9 +113,7 @@ from selenium.common.exceptions import TimeoutException
 
 school_df = load_all_schools(driver)
 
-school_df.to_csv('school_data.csv', index=False)
-
-
+school_df.to_csv('data/raw/school_data.csv', index=False)
 
 
 driver.quit()

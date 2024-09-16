@@ -82,11 +82,11 @@ def get_coordinates_for_null_entries(school_df):
 school_df = get_coordinates_for_null_entries(school_df)
 
 # Save the updated results back to CSV
-school_df.to_csv('school_data.csv', index=False)
+school_df.to_csv('data/raw/school_data.csv', index=False)
 
 # Run the multi-threaded function
 school_df = get_coordinates_multi_thread(school_df)
 school_df = get_coordinates_for_null_entries(school_df)
 
 # Save the results back to CSV
-school_df.to_csv('school_data.csv', index=False)
+school_df.to_csv('data/raw/school_data.csv', index=False)
