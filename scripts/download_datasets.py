@@ -55,3 +55,25 @@ HISTORICAL_RENTAL_LINK = BASE_URL + FILE_NAME
 urlretrieve(HISTORICAL_RENTAL_LINK, local_output_dir) 
 
 print("Historical Rental Data Download Complete")
+
+
+# SECTION: download the ABS data
+years = [2016, 2021]
+BASE_URL = "https://www.abs.gov.au/census/find-census-data/datapacks/download/"
+
+for year in years:
+    # URL for the ABS data
+    FILE_NAME = f"{year}_GCP_SA2_for_VIC_short-header.zip"
+    ABS_DATA_LINK = BASE_URL + FILE_NAME
+
+    # output directories
+    local_zip_path = f"{output_dir}/{FILE_NAME}"
+    local_output_dir = f"{output_dir}/{year}_GCP_SA2_for_VIC_short-header"
+
+    # retrieve the ABS data
+    urlretrieve(ABS_DATA_LINK, local_zip_path) 
+    with zipfile.ZipFile(local_zip_path, 'r') as zip_ref:
+        zip_ref.extractall(local_output_dir)
+
+    # delete orginal zip file  
+    os.remove(local_zip_path)
