@@ -133,8 +133,14 @@ data/curated/
 data/raw/
 data/landing/
 
+# config_files ignore
+configuration_files/
+
 # OSX .DS_Store file
 .DS_Store
 
 # Debugger launch file
 .vscode/*
+
+# test
+check.py

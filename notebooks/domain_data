@@ -1,0 +1,10 @@
+import json
+
+# Load JSON data from a file
+with open('data.json', 'r') as file:
+    data = json.load(file)
+
+# Count the number of top-level objects (URLs)
+total_objects = len(data)
+
+print(f'Total number of objects: {total_objects}')
