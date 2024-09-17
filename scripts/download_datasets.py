@@ -58,17 +58,18 @@ print("Historical Rental Data Download Complete")
 
 
 # SECTION: download the ABS data
-years = [2016, 2021]
+years = [(2016,'SSC') ,(2021, 'SAL')]
 BASE_URL = "https://www.abs.gov.au/census/find-census-data/datapacks/download/"
 
-for year in years:
+
+for year, tp in years:
     # URL for the ABS data
-    FILE_NAME = f"{year}_GCP_SA2_for_VIC_short-header.zip"
+    FILE_NAME = f"{year}_GCP_{tp}_for_VIC_short-header.zip"
     ABS_DATA_LINK = BASE_URL + FILE_NAME
 
     # output directories
     local_zip_path = f"{output_dir}/{FILE_NAME}"
-    local_output_dir = f"{output_dir}/{year}_GCP_SA2_for_VIC_short-header"
+    local_output_dir = f"{output_dir}/{year}_GCP_{tp}_for_VIC_short-header"
 
     # retrieve the ABS data
     urllib.request.urlretrieve(ABS_DATA_LINK, local_zip_path) 
@@ -77,6 +78,15 @@ for year in years:
 
     # delete orginal zip file  
     os.remove(local_zip_path)
+
+
+# download the LGA correspondences file
+FILE_NAME = "CG_SSC_2016_SAL_2021.csv"
+local_correspondence_output_path = f"{output_dir}/{FILE_NAME}"
+CORRESPONDENCE_LINK = f'https://www.abs.gov.au/statistics/standards/australian-statistical-geography-standard-asgs-edition-3/jul2021-jun2026/access-and-downloads/correspondences/{FILE_NAME}'
+
+# retrieve the ABS data
+urllib.request.urlretrieve(CORRESPONDENCE_LINK, local_correspondence_output_path)
 
 print("ABS Data Download Complete")
 
@@ -139,3 +149,41 @@ with zipfile.ZipFile(local_zip_path, 'r') as zip_ref:
 os.remove(local_zip_path)
 
 print("Open Space Data Download Complete")
+
+
+# SECTION: Download Suburbs and Locactions data
+
+# SECTION: download SAL data
+BASE_URL = "https://www.abs.gov.au/statistics/standards/australian-statistical-geography-standard-asgs-edition-3/jul2021-jun2026/access-and-downloads/digital-boundary-files/"
+FILE_NAME = "SAL_2021_AUST_GDA2020_SHP.zip"
+
+
+DATA_LINK = BASE_URL + FILE_NAME
+
+# output directories
+local_zip_path = f"{output_dir}/{FILE_NAME}"
+local_output_dir = f"{output_dir}/SAL_data"
+
+# retrieve the ABS data
+urllib.request.urlretrieve(DATA_LINK, local_zip_path) 
+with zipfile.ZipFile(local_zip_path, 'r') as zip_ref:
+   zip_ref.extractall(local_output_dir)
+
+# delete orginal zip file  
+os.remove(local_zip_path)
+
+print("SAL shape data Download Complete")
+
+
+# Download business listing data
+
+urllib.request.urlretrieve("https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/business-establishments-with-address-and-industry-classification/exports/csv?delimiter=%2C", f"{output_dir}/business_listing.csv")
+
+print("business listing data downloaded")
+
+
+# Download the ANZSCIC-4 data
+
+urllib.request.urlretrieve("https://www.abs.gov.au/statistics/classifications/australian-and-new-zealand-standard-industrial-classification-anzsic/2006-revision-2-0/numbering-system-and-titles#:~:text=Download-,Download,-table%20as%20CSV", f"{output_dir}/anzsic-groups.csv")
+
+print("ANZSCIC-4 data downloaded")
