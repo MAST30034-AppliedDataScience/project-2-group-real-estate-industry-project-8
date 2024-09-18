@@ -21,10 +21,9 @@ metadata_lock = Lock()
 
 # constants
 BASE_URL = "https://www.domain.com.au"
-MAX_WORKERS = 28  # Number of concurrent threads
-MAX_RETRIES = 3  # Maximum retries for failed requests
-BATCH_SIZE = 5000  # Process URLs in batches
-SAVE_INTERVAL = 1000  # Save progress after every 1000 records
+MAX_WORKERS = 28
+MAX_RETRIES = 3
+BATCH_SIZE = 5000
 
 # output folder
 output_folder = "data/raw"
@@ -37,7 +36,7 @@ if not os.path.exists(output_folder):
 
 # Function to add a random delay
 def random_delay():
-    time.sleep(random.uniform(1, 2))  # Random delay between 1 to 1.5 seconds
+    time.sleep(random.uniform(1, 2))
 
 def is_error_page(bs_object):
     """Determine if the page is an error page or has no results."""
@@ -68,9 +67,8 @@ def fetch_links(suburb_postcode, seen_urls):
     local_url_links = []
 
     while True:
-        retries = 0  # Retry counter is reset for each page
-        
-        while retries < MAX_RETRIES:  # Retry loop for each page
+        retries = 0
+        while retries < MAX_RETRIES:
             url = f"{BASE_URL}/rent/{suburb_postcode}/?sort=suburb-asc&page={page}"
             logger.info(f"Visiting {url}")
 
@@ -80,7 +78,7 @@ def fetch_links(suburb_postcode, seen_urls):
 
                 if is_error_page(bs_object):
                     logger.info(f"No results found for {url}. Stopping at page {page}.")
-                    return local_url_links  # Return the links fetched so far (if any)
+                    return local_url_links
 
                 index_links = bs_object \
                     .find("ul", {"data-testid": "results"}) \
@@ -89,22 +87,23 @@ def fetch_links(suburb_postcode, seen_urls):
                 for link in index_links:
                     if 'address' in link.get('class', []):
                         href = link['href']
-                        # Add only unseen URLs to the list
-                        if href not in seen_urls:
-                            local_url_links.append(href)
-                            seen_urls.add(href)
+                        # Lock access to the `seen_urls` set
+                        with metadata_lock:
+                            if href not in seen_urls:
+                                local_url_links.append(href)
+                                seen_urls.add(href)
 
                 random_delay()
                 page += 1
-                break  # Exit the retry loop if the request is successful
+                break
 
             except (HTTPError, URLError, IncompleteRead, HTTPException, ValueError) as e:
                 retries += 1
                 logger.error(f"Error fetching {url}: {e}. Retrying... {retries}/{MAX_RETRIES}")
                 if retries >= MAX_RETRIES:
                     logger.error(f"Failed to fetch {url} after {MAX_RETRIES} retries. Moving to the next page.")
-                    return local_url_links  # Return the links fetched so far (if any)
-    
+                    return local_url_links
+
     return local_url_links
 
 # Export URLs to a file after fetching
@@ -158,42 +157,81 @@ def fetch_metadata_batch(batch_urls):
                 pbar.update(1)
 
 # Function to fetch metadata for a single URL
-def fetch_metadata(property_url):
-    logger.info(f"Fetching metadata for {property_url}")
-    try:
-        bs_object = BeautifulSoup(urlopen(Request(property_url, headers={'User-Agent': "PostmanRuntime/7.6.0"}), timeout=30), "lxml")
+def fetch_metadata(property_url, backoff_factor=5):
+    retries = 0
+    while retries < MAX_RETRIES:
+        try:
+            logger.info(f"Fetching metadata for {property_url}")
+            bs_object = BeautifulSoup(urlopen(Request(property_url, headers={'User-Agent': "PostmanRuntime/7.6.0"}), timeout=30), "lxml")
 
-        property_data = {}
+            property_data = {}
 
-        # Property name
-        property_data['name'] = bs_object.find("h1", {"class": "css-164r41r"}).text
+            # Property name
+            name = bs_object.find("h1", {"class": "css-164r41r"}).text
+            property_data['name'] = name
 
-        # Property cost
-        property_data['cost_text'] = bs_object.find("div", {"data-testid": "listing-details__summary-title"}).text
+            # Extract suburb from the name (assumes it's the part between the street and state)
+            suburb_match = re.search(r'\,\s(.*?)\sVIC', name)
+            if suburb_match:
+                suburb = suburb_match.group(1).strip()
+                property_data['suburb'] = suburb
 
-        # Rooms and parking
-        rooms = bs_object.find("div", {"data-testid": "property-features"}) \
-            .findAll("span", {"data-testid": "property-features-text-container"})
+            # Property cost
+            property_data['cost_text'] = bs_object.find("div", {"data-testid": "listing-details__summary-title"}).text
 
-        property_data['rooms'] = [
-            re.findall(r'\d+\s[A-Za-z]+', feature.text)[0] for feature in rooms
-            if 'Bed' in feature.text or 'Bath' in feature.text
-        ]
-        property_data['parking'] = [
-            re.findall(r'\S+\s[A-Za-z]+', feature.text)[0] for feature in rooms
-            if 'Parking' in feature.text
-        ]
+            # Rooms and parking
+            rooms = bs_object.find("div", {"data-testid": "property-features"}) \
+                .findAll("span", {"data-testid": "property-features-text-container"})
 
-        property_data['desc'] = re.sub(r'<br\/>', '\n', str(bs_object.find("p"))).strip('</p>')
+            property_data['rooms'] = [
+                re.findall(r'\d+\s[A-Za-z]+', feature.text)[0] for feature in rooms
+                if 'Bed' in feature.text or 'Bath' in feature.text
+            ]
+            property_data['parking'] = [
+                re.findall(r'\S+\s[A-Za-z]+', feature.text)[0] for feature in rooms
+                if 'Parking' in feature.text
+            ]
 
-        return property_url, property_data
+            property_data['desc'] = re.sub(r'<br\/>', '\n', str(bs_object.find("p"))).strip('</p>')
 
-    except AttributeError as e:
-        logger.error(f"Issue fetching metadata for {property_url}: {e}")
-        return property_url, {}
+            # Extract staticMapUrl and coordinates from script tags
+            script_content = bs_object.find_all("script")
+            static_map_url = None
+            for script in script_content:
+                script_text = script.string
+                if script_text:
+                    match = re.search(r'staticMapUrl":"(https://maps.googleapis.com/maps/api/staticmap[^"]+)"', script_text)
+                    if match:
+                        static_map_url = match.group(1)
+                        break
+
+            if static_map_url:
+                # Extract longitude and latitude
+                coord_match = re.search(r'center=([-.\d]+),([-.\d]+)', static_map_url)
+                if coord_match:
+                    latitude = coord_match.group(1)
+                    longitude = coord_match.group(2)
+                    property_data['latitude'] = latitude
+                    property_data['longitude'] = longitude
+            else:
+                property_data['latitude'] = 'Not found'
+                property_data['longitude'] = 'Not found'
+
+            return property_url, property_data
+
+        except (AttributeError, Exception) as e:
+            retries += 1
+            logger.error(f"Issue fetching metadata for {property_url}: {e}. Retrying... {retries}/{MAX_RETRIES}")
+            if retries < MAX_RETRIES:
+                wait_time = backoff_factor * retries
+                logger.info(f"Retrying in {wait_time} seconds...")
+                time.sleep(wait_time)
+            else:
+                logger.error(f"Max retries exceeded for {property_url}")
+                return property_url, {}
 
 # Function to save the current metadata to disk
-def save_metadata_to_disk():
+def save_metadata_to_disk(final=False):
     global property_metadata
     if os.path.exists(output_file):
         with open(output_file, 'r') as json_file:
@@ -209,7 +247,10 @@ def save_metadata_to_disk():
     with open(output_file, 'w') as json_file:
         json.dump(existing_data, json_file, indent=4)
     
-    logger.info(f"Data successfully exported to {output_file}")
+    if (final == False):
+        logger.info(f"Data successfully exported to {output_file}")
+    else:
+        logger.info(f"Final: Data successfully exported to {output_file}")
 
 # Main logic to fetch URLs and process in batches
 if __name__ == "__main__":
@@ -222,7 +263,7 @@ if __name__ == "__main__":
         process_in_batches(url_links)
 
         # Final save in case anything remains
-        save_metadata_to_disk()
+        save_metadata_to_disk(final=True)
 
     else:
         seen_urls = set()  # Initialize the set of seen URLs
@@ -245,4 +286,4 @@ if __name__ == "__main__":
         process_in_batches(url_links)
 
         # Final save in case anything remains
-        save_metadata_to_disk()
+        save_metadata_to_disk(final=True)
