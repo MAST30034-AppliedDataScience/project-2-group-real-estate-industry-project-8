@@ -1,7 +1,26 @@
-# download the LGA correspondences file
-FILE_NAME = "CG_LGA_2021_LGA_2022.csv"
-local_correspondence_output_path = f"{output_dir}/{FILE_NAME}"
-CORRESPONDENCE_LINK = f'https://www.abs.gov.au/statistics/standards/australian-statistical-geography-standard-asgs-edition-3/jul2021-jun2026/access-and-downloads/correspondences/{FILE_NAME}'
-
-# retrieve the ABS data
-urllib.request.urlretrieve(CORRESPONDENCE_LINK, local_correspondence_output_path)
+    # 1. Schools, colleges, universities, and other educational institutions
+    {"tag": '["amenity"~"school|college|university|kindergarten|preschool"]', "name": "education"},
+    
+    # 2. Hospitals, clinics, pharmacies, and other healthcare facilities
+    {"tag": '["amenity"~"hospital|clinic|pharmacy|dentist|doctors"]', "name": "healthcare"},
+    
+    # 3. Parks, gardens, playgrounds, and recreational areas
+    {"tag": '["leisure"~"park|garden|playground|golf_course|sports_centre"]', "name": "recreation"},
+    
+    # 4. Residential and mixed-use land
+    {"tag": '["landuse"~"residential|mixed_use|living_street"]', "name": "residential"},
+    
+    # 5. Commercial, retail, and business land
+    {"tag": '["landuse"~"commercial|retail|business"]', "name": "commercial"},
+    
+    # 6. Industrial areas, warehouses, and factories
+    {"tag": '["landuse"~"industrial|warehouse|factory"]', "name": "industrial"},
+    
+    # 7. Restaurants, cafes, bars, and food establishments
+    {"tag": '["amenity"~"restaurant|cafe|bar|pub|fast_food"]', "name": "food_establishments"},
+    
+    # 8. Public transportation hubs
+    {"tag": '["amenity"~"bus_station|tram_stop|subway_entrance|railway_station"]', "name": "public_transport"},
+    
+    # 9. Shopping facilities
+    {"tag": '["shop"~"supermarket|mall|convenience|bakery|clothes"]', "name": "shopping"}
