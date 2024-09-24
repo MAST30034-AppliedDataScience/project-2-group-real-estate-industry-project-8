@@ -58,7 +58,7 @@ print("Historical Rental Data Download Complete")
 
 
 # SECTION: download the ABS data
-years = [(2016,'SSC') ,(2021, 'SAL')]
+years = [(2016,'SSC') ,(2021, 'SAL'), (2021, 'SA2'), (2016, 'SA2')]
 BASE_URL = "https://www.abs.gov.au/census/find-census-data/datapacks/download/"
 
 
@@ -172,7 +172,21 @@ with zipfile.ZipFile(local_zip_path, 'r') as zip_ref:
 # delete orginal zip file  
 os.remove(local_zip_path)
 
-print("SAL shape data Download Complete")
+#SECTION: download projections
+
+local_output_dir = f"{output_dir}/Population_Projections"
+
+base_urls = ["https://www.planning.vic.gov.au/__data/assets/excel_doc/0028/691660/VIF2023_SA2_Pop_Hhold_Dwelling_Projections_to_2036_Release_2.xlsx"]
+
+for url in base_urls:
+    # output directories
+    local_output_dir = f"{output_dir}/{url.split('/')[-1]}"
+
+    # retrieve the ABS data
+    urllib.request.urlretrieve(url, local_output_dir)
+
+print("Population Projections Download Complete")
+
 
 
 # Download business listing data
