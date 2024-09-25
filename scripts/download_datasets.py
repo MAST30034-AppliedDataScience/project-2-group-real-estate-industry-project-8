@@ -11,6 +11,22 @@ output_dir = "./data/landing"
 # Make sure the directory exists
 os.makedirs(output_dir, exist_ok=True)
 
+# Coastline data
+url = "https://d28rz98at9flks.cloudfront.net/61395/61395_shp.zip"
+# output directories
+local_zip_path = f"{output_dir}/coastline.zip"
+local_output_dir = f"{output_dir}/coastline"
+
+# retrieve the coastline data
+urllib.request.urlretrieve(url, local_zip_path)
+with zipfile.ZipFile(local_zip_path, 'r') as zip_ref:
+    zip_ref.extractall(local_output_dir)
+
+# delete original zip file
+os.remove(local_zip_path)
+
+print("Coastline Data Download Complete")
+
 # SECTION: download the shp file of SA2 borders in Australia
 
 # Base URL for ABS statistics
@@ -201,3 +217,5 @@ print("business listing data downloaded")
 urllib.request.urlretrieve("https://www.abs.gov.au/statistics/classifications/australian-and-new-zealand-standard-industrial-classification-anzsic/2006-revision-2-0/numbering-system-and-titles#:~:text=Download-,Download,-table%20as%20CSV", f"{output_dir}/anzsic-groups.csv")
 
 print("ANZSCIC-4 data downloaded")
+
+
