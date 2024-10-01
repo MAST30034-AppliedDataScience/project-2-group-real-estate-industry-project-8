@@ -1,15 +1,24 @@
 """ This script downloads datasets that are easily retrievable and places them in the data/landing directory """
 
+
 # import necessary libraries and functions
 import os
 import zipfile
 import urllib.request
 
 
-output_dir = "../data/landing"
+output_dir = "./data/landing"
 
 # Make sure the directory exists
 os.makedirs(output_dir, exist_ok=True)
+
+# download tourism
+
+URL = "https://www.tra.gov.au/content/dam/austrade-assets/global/wip/tra/documents/tsa/2023/tra-stsa-state-tourism-satellite-accounts-2022-23-data-tables.xlsx"
+
+urllib.request.urlretrieve(URL, f"{output_dir}/tourism.xlsx")
+
+print("tourism data downloaded")
 
 # Coastline data
 url = "https://d28rz98at9flks.cloudfront.net/61395/61395_shp.zip"
@@ -217,5 +226,6 @@ print("business listing data downloaded")
 urllib.request.urlretrieve("https://www.abs.gov.au/statistics/classifications/australian-and-new-zealand-standard-industrial-classification-anzsic/2006-revision-2-0/numbering-system-and-titles#:~:text=Download-,Download,-table%20as%20CSV", f"{output_dir}/anzsic-groups.csv")
 
 print("ANZSCIC-4 data downloaded")
+
 
 
