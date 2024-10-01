@@ -144,3 +144,6 @@ configuration_files/
 
 # test
 check.py
+
+# env files
+/.env
