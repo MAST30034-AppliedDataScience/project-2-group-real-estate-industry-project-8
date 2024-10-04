@@ -27,6 +27,13 @@ Agenda:
 - Finalising script 
 - evaluating and predicting liveability of suburbs
 
+Tasks:
+Josh: Polishing scripts, creating plots to pick for final presentation
+Zac: Polish Slides, clean notebooks
+Harith: Polish Slides, finalise liveability and affordability
+Dong: Polish Slides, create plots, 
+Jayden: Finalising forecasts, create plots, finalise liveability
+
 Signed: 
 Dong
 Joshua
