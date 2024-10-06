@@ -133,6 +133,11 @@ data/curated/
 data/raw/
 data/landing/
 
+# data2
+data2/curated/
+data2/landing/
+data2/raw/
+
 # config_files ignore
 configuration_files/
 
