@@ -56,7 +56,10 @@ LGA Correspondences:
 Train Station Patronage Data:
 
 - File: Annual_Metropolitan_Train_Station_Entries_2023-24.csv
-- Source: VicRoads - Train station entry data.
+- Source: VicRoads - Train station entry data (metropolitan).
+
+- File: PTV_REGIONAL_TRAIN_STATION.shp
+- Source: DataShare vic.gov - Train station entry data (regional).
 
 Crime Records in Victoria:
 
@@ -88,10 +91,30 @@ ANZSCIC Classification Data:
 - File: anzsic-groups.csv
 - Source: ABS - Australian and New Zealand Standard Industrial Classification (ANZSIC).
 
+Victorian Schooling Data:
+
+- File: school_data.csv
+- Source: aroundschools.com
+
+Airbnb Data:
+
+- File: listing.csv
+- Source: Inside airbnb
+
+Domain Rental Data:
+
+- File: property_metadata.json
+- Source: Domain.com
+
+Inflation Data:
+
+- File: hard coded into `Data_merging` notebook (not a lot of data here)
+- Source: ABS for 2014-2024 & Statista forecasts (2025-2028)
+
 ## Project Pipeline:
 
 0. Run the `requirements.txt` to install all the necessary libraries
-1. Run the `download_datasets` in `scripts` to get:
+1. Run the `download_datasets` in `scripts` to get the following data:
    - Tourism
    - Coastline Data
    - SA2 Borders (Australia)
@@ -106,8 +129,8 @@ ANZSCIC Classification Data:
    - Business Listings
    - ANZSCIC Classification Data
 2. (Optional) Run the `domain_com_scrape.py` in `scripts` to scrape data from _domain.com.au_ \[This takes 5 hours to run and is not actively employed\]
-3. Run the `location_scraper` in `scripts` to get dataset for shop records.
-4. Run in order and follow instructions for these folders from `notebooks`:
+3. Run the `location_scraper` in `scripts` to get location coordinates of schools.
+4. Run in order and follow instructions inside the notebooks of these folders from `notebooks`:
    - ABS_data_preprocessing
      1. ABS_data_preprocessing
      2. ABS_ARIMA_interpolation
@@ -119,8 +142,6 @@ ANZSCIC Classification Data:
    - Proximity_data_preprocessing
      1. proximity_preprocessing_1
      2. proximity_preprocessing_2
-   - Speedtest_preprocessing
-     1. ookla
    - insideAirbnb_preprocessing
      1. processing
    - Tourism_preprocessing
@@ -141,10 +162,20 @@ ANZSCIC Classification Data:
      1. business_listing_preprocessing
      2. business_ARIMA
 5. To merge all the data run `Data_merging`
-6. Run `Transformations` in `notebooks`
+6. Run `transformations` in `notebooks` to perform final feature engineering and data transformations
 7. Run `Preliminary_analysis` in `notebooks`
 8. Run `Graphs` in `notebooks`
 9. Run `Final_Modelling` in `models`
 10. Run `predictions` in `models`
 11. Run `predictions_adjusted` in `models`
 12. Run both `affordabilitiy` and `liveability` in `Livability_and_Affordability` in `notebooks`
+
+# Additional Notes
+
+### Google Drive
+
+You can find all the datasets in a google drive at this link ['https://drive.google.com/drive/folders/1GIqOVAzaCzuQMXGhnxioaJINnMQO8qPm']. We supply this drive as can take too long to run the scrapers or as a back up in case any unexpected issues come up when running notebooks in the project pipeline. Please note that this google drive can only be accessed via a unimelb email account.
+
+### Scrap Work & Notes
+
+Our project contains a lot of scrap workings and notebooks, all of these files are contained in the folder `Scrap_Notebooks_and_Scripts` in `notebooks`. These are not necessary to run the pipeline or understand findings of the project but are supplied in the repository for any interested readers.
