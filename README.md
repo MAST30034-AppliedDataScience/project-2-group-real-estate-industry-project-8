@@ -74,23 +74,18 @@ ANZSCIC Classification Data:
    - File: anzsic-groups.csv
    - Source: ABS - Australian and New Zealand Standard Industrial Classification (ANZSIC).
 
-Domain Data:
-   - 
-   - 
-
-
 ## Project Pipeline:
 
 0. Run the `requirements.txt` to install all the necessary libraries
 1. Run the `download_datasets` in `scripts` to get:
    - Tourism
-   - Coastline Data:
-   - SA2 Borders (Australia):
-   - Historical Rental Data:
-   - ABS Census Data:
-   - LGA Correspondences:
-   - Train Station Patronage Data:
-   - Crime Records in Victoria:
+   - Coastline Data
+   - SA2 Borders (Australia)
+   - Historical Rental Data
+   - ABS Census Data
+   - LGA Correspondences
+   - Train Station Patronage Data
+   - Crime Records in Victoria
    - Open Space Data
    - Suburbs and Locations (SAL) Data
    - Population Projections
