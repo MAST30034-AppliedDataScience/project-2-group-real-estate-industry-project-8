@@ -132,11 +132,3 @@ Primary Objectives:
 6. To merge all the data run `Data_merging`
 7. 
 
-## Visualisation:
-
-1. Run `poi_visualisation` in `notebooks` for *points of interest* geospatial visualisation, plots can be found in `point_of_interest` in `plots`
-2. Geospatial visualisation for *median rental prices in June 2024* can be found in `june 2024 median` in `plots`
-3. Geospatial visualisation for *estimated resident populations* and can be found in `erp`, `erp_per_km2` and `erp_increase` in `plots`
-4. Geospatial visualisation for *income across suburbs* and *jobs accross suburbs* can be found in `income` and `jobs` in `plots`
-5. Geospatial visualisation for *migrants across suburbs* can be found in `net_migrants` in `plots`
-6. Geospatial visualisation for *suburbs' areas* can be found in `area` in `plots`
