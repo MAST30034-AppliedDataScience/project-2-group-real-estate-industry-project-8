@@ -12,7 +12,7 @@ output_dir = "./data/landing"
 # Make sure the directory exists
 os.makedirs(output_dir, exist_ok=True)
 
-# download tourism
+# SECTION: download tourism
 
 URL = "https://www.tra.gov.au/content/dam/austrade-assets/global/wip/tra/documents/tsa/2023/tra-stsa-state-tourism-satellite-accounts-2022-23-data-tables.xlsx"
 
@@ -35,6 +35,8 @@ with zipfile.ZipFile(local_zip_path, 'r') as zip_ref:
 os.remove(local_zip_path)
 
 print("Coastline Data Download Complete")
+
+
 
 # SECTION: download the shp file of SA2 borders in Australia
 
@@ -82,6 +84,7 @@ urllib.request.urlretrieve(HISTORICAL_RENTAL_LINK, local_output_dir)
 print("Historical Rental Data Download Complete")
 
 
+
 # SECTION: download the ABS data
 years = [(2016,'SSC') ,(2021, 'SAL'), (2021, 'SA2'), (2016, 'SA2')]
 BASE_URL = "https://www.abs.gov.au/census/find-census-data/datapacks/download/"
@@ -105,7 +108,8 @@ for year, tp in years:
     os.remove(local_zip_path)
 
 
-# download the LGA correspondences file
+
+# SECTION: download the LGA correspondences file
 FILE_NAME = "CG_SSC_2016_SAL_2021.csv"
 local_correspondence_output_path = f"{output_dir}/{FILE_NAME}"
 CORRESPONDENCE_LINK = f'https://www.abs.gov.au/statistics/standards/australian-statistical-geography-standard-asgs-edition-3/jul2021-jun2026/access-and-downloads/correspondences/{FILE_NAME}'
@@ -151,7 +155,7 @@ CRIME_RECORDS_LINK = BASE_URL + DOWNLOAD_PATH + FILE_NAME
 urllib.request.urlretrieve(CRIME_RECORDS_LINK, local_output_dir) 
 
 print("Crime Data Download Complete")
-#https://files.crimestatistics.vic.gov.au/2024-06/Data_Tables_LGA_Criminal_Incidents_Year_Ending_March_2024.xlsx
+
 
 
 # SECTION: download Open Space data
@@ -176,9 +180,10 @@ os.remove(local_zip_path)
 print("Open Space Data Download Complete")
 
 
-# SECTION: Download Suburbs and Locactions data
 
-# SECTION: download SAL data
+# SECTION: Download Suburbs and Locactions (SAL) data 
+
+# download SAL data
 BASE_URL = "https://www.abs.gov.au/statistics/standards/australian-statistical-geography-standard-asgs-edition-3/jul2021-jun2026/access-and-downloads/digital-boundary-files/"
 FILE_NAME = "SAL_2021_AUST_GDA2020_SHP.zip"
 
@@ -197,7 +202,7 @@ with zipfile.ZipFile(local_zip_path, 'r') as zip_ref:
 # delete orginal zip file  
 os.remove(local_zip_path)
 
-#SECTION: download projections
+# SECTION: download projections
 
 local_output_dir = f"{output_dir}/Population_Projections"
 
@@ -214,14 +219,14 @@ print("Population Projections Download Complete")
 
 
 
-# Download business listing data
+# SECTION: Download business listing data
 
 urllib.request.urlretrieve("https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/business-establishments-with-address-and-industry-classification/exports/csv?delimiter=%2C", f"{output_dir}/business_listing.csv")
 
 print("business listing data downloaded")
 
 
-# Download the ANZSCIC-4 data
+# SECTION: Download the ANZSCIC-4 data
 
 urllib.request.urlretrieve("https://www.abs.gov.au/statistics/classifications/australian-and-new-zealand-standard-industrial-classification-anzsic/2006-revision-2-0/numbering-system-and-titles#:~:text=Download-,Download,-table%20as%20CSV", f"{output_dir}/anzsic-groups.csv")
 

@@ -8,6 +8,11 @@ import os
 
 def api_call(BASE_API_LINK, headers, suburb, payload_data, CBD):
 
+    """
+        This function performs the actual API call to ORS and retrieves the information specified in the function
+        In then returns a dictionary containing this information.
+    """
+
     # API call limit is 40 per minute, here we make sure we do not breach that adhearing to the ORS's API policies
     call_interval = 60 / 39 # 39 is used as a boundary (make sure we never do 40 api calls in a minute)
     time.sleep(call_interval)
@@ -65,6 +70,7 @@ def download_ors_proximity_data(suburb_and_coords_df, api_key, file_name):
         "Content-Type": "application/json"
     }
 
+    # exception handling of coordinates where suburb centre is too far away from a road
     exception_coords = {
         "Truganina": [144.69748, -37.79924],
         "Mambourin": [144.59416, -37.89662],
@@ -95,6 +101,7 @@ def download_ors_proximity_data(suburb_and_coords_df, api_key, file_name):
             ]
         }
         api_call_count += 1
+
         # Make the POST request
         distance_CBD_record = api_call(BASE_API_LINK, headers, suburb, payload_data, True)
         if distance_CBD_record != None:
@@ -117,6 +124,8 @@ def download_ors_proximity_data(suburb_and_coords_df, api_key, file_name):
                 ]
             }
             distance_train2_record = api_call(BASE_API_LINK, headers, suburb, payload_data, False)
+            
+            # keep data on the closest station only (distance and time to closest station is the only relevant data here)
             if distance_train1_record["distance_to_station"] < distance_train2_record["distance_to_station"]:
                 closest_station_record = distance_train1_record
             else:
@@ -130,10 +139,12 @@ def download_ors_proximity_data(suburb_and_coords_df, api_key, file_name):
 
             }
         print(f"suburb(s) no. {api_call_count} complete")
+
     # Output File path
     file_path = f"../../data/landing/{file_name}.json"
 
     data = proximity_to_CBD
+
     # Write the updated data back to the file
     with open(file_path, 'w') as file:
         json.dump(data, file, indent=4)
