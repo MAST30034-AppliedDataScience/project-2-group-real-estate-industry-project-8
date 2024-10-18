@@ -108,10 +108,17 @@ Domain Rental Data:
 
 Inflation Data:
 
-- File: hard coded into `Data_merging` notebook (not a lot of data here)
+- File: No file used (there was not a lot of data collected here so it was consequently hard coded into `Data_merging` notebook)
 - Source: ABS for 2014-2024 & Statista forecasts (2025-2028)
 
 ## Project Pipeline:
+
+### Summary of the Project
+
+Running the pipeline requires following a lot of steps as outlined below. To understand
+For a summary of our approach and key findings of the project, please read and run our notebook `Summary_Notebook` in `notebooks`. This gives a high level summary of the pipeline along with limitations and assumptions made at every stage.
+
+### How to Run the Pipeline
 
 0. Run the `requirements.txt` to install all the necessary libraries
 1. Run the `download_datasets` in `scripts` to get the following data:
@@ -129,7 +136,7 @@ Inflation Data:
    - Business Listings
    - ANZSCIC Classification Data
 2. (Optional) Run the `domain_com_scrape.py` in `scripts` to scrape data from _domain.com.au_ \[This takes 5 hours to run and is not actively employed\]
-3. Run the `location_scraper` in `scripts` to get location coordinates of schools.
+3. Run the `location_scraper` and the `school_scraper` in `scripts` to get location coordinates of schools and other school related data.
 4. Run in order and follow instructions inside the notebooks of these folders from `notebooks`:
    - ABS_data_preprocessing
      1. ABS_data_preprocessing
@@ -168,7 +175,7 @@ Inflation Data:
 9. Run `Final_Modelling` in `models`
 10. Run `predictions` in `models`
 11. Run `predictions_adjusted` in `models`
-12. Run both `affordabilitiy` and `liveability` in `Livability_and_Affordability` in `notebooks`
+12. Run both `affordabilitiy` and `liveability` in `Livability_and_Affordability` in `notebooks` to retrieve affordability liveability scores of suburbs
 
 # Additional Notes
 
