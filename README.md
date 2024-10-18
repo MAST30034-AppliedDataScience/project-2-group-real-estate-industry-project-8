@@ -121,7 +121,7 @@ Inflation Data:
 ### Summary of the Project
 
 Running the pipeline requires following a lot of steps as outlined below. To understand
-For a summary of our approach and key findings of the project, please read and run our notebook `Summary_Notebook` in `notebooks`. This gives a high level summary of the pipeline along with limitations and assumptions made at every stage.
+For a summary of our approach and key findings of the project, please read and run our notebook `Summary_Notebook`. This gives a high level summary of the pipeline along with limitations and assumptions made at every stage.
 
 ### How to Run the Pipeline
 
