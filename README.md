@@ -21,6 +21,11 @@ Primary Objectives:
 - Forecast Top 10 Suburbs with Highest Projected Growth
 - Calculate the Most Liveable and Affordable Suburbs
 
+## Summary of the Project
+
+Running the pipeline requires following a lot of steps as outlined below. To understand
+For a summary of our approach and key findings of the project, please read and run our notebook `Summary_Notebook`. This gives a high level summary of the pipeline along with limitations and assumptions made at every stage.
+
 ## Datasets:
 
 Tourism Data:
@@ -108,7 +113,7 @@ Domain Rental Data:
 
 Internet Speed Tests:
 
-- File: {year}\_fixed_broadband.csv, where year is the variable representing the year, year can take the values 2016, 2017, 2018, or 2019 (unable to be implemented into analysis - see the summary notebook)
+- File: {year}\_fixed_broadband.csv, where year is the variable representing the year, year can take the values 2019, 2020, 2021, 2022 and 2023 (unable to be implemented into analysis see the summary notebook)
 - Source: ookla-open-data
 
 Inflation Data:
@@ -117,13 +122,6 @@ Inflation Data:
 - Source: ABS for 2014-2024 & Statista forecasts (2025-2028)
 
 ## Project Pipeline:
-
-### Summary of the Project
-
-Running the pipeline requires following a lot of steps as outlined below. To understand
-For a summary of our approach and key findings of the project, please read and run our notebook `Summary_Notebook`. This gives a high level summary of the pipeline along with limitations and assumptions made at every stage.
-
-### How to Run the Pipeline
 
 0. Run the `requirements.txt` to install all the necessary libraries
 1. Run the `download_datasets` in `scripts` to get the following data:
