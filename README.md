@@ -23,7 +23,6 @@ Primary Objectives:
 
 ## Summary of the Project
 
-Running the pipeline requires following a lot of steps as outlined below. To understand
 For a summary of our approach and key findings of the project, please read and run our notebook `Summary_Notebook`. This gives a high level summary of the pipeline along with limitations and assumptions made at every stage.
 
 ## Datasets:
@@ -122,6 +121,8 @@ Inflation Data:
 - Source: ABS for 2014-2024 & Statista forecasts (2025-2028)
 
 ## Project Pipeline:
+
+Running the pipeline requires following a lot of steps as outlined below. 
 
 0. Run the `requirements.txt` to install all the necessary libraries
 1. Run the `download_datasets` in `scripts` to get the following data:
