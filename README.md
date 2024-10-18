@@ -33,11 +33,6 @@ Coastline Data:
 - Files extracted from coastline.zip in the coastline folder.
 - Source: Australian coastline data in shapefile format.
 
-SA2 Borders (Australia):
-
-- Files extracted from SA2_2021_AUST_SHP_GDA2020.zip in the SA2_2021_map folder.
-- Source: Australian Bureau of Statistics (ABS) - Digital boundary files for SA2 borders.
-
 Historical Rental Data:
 
 - File: moving-annual-rent-suburb-march-quarter-2024.xlsx
@@ -101,10 +96,20 @@ Airbnb Data:
 - File: listing.csv
 - Source: Inside airbnb
 
+SA2 Borders (Australia):
+
+- Files extracted from SA2_2021_AUST_SHP_GDA2020.zip in the SA2_2021_map folder. (unable to be implemented into analysis - see the summary notebook)
+- Source: Australian Bureau of Statistics (ABS) - Digital boundary files for SA2 borders.
+
 Domain Rental Data:
 
-- File: property_metadata.json
+- File: property_metadata.json (unable to be implemented into analysis - see the summary notebook)
 - Source: Domain.com
+
+Internet Speed Tests:
+
+- File: {year}\_fixed_broadband.csv, where year is the variable representing the year, year can take the values 2016, 2017, 2018, or 2019 (unable to be implemented into analysis - see the summary notebook)
+- Source: ookla-open-data
 
 Inflation Data:
 
@@ -163,6 +168,8 @@ For a summary of our approach and key findings of the project, please read and r
      1. historical_rent_preprocessing
    - Domain_preprocessing
      1. preprocessing_suburb
+   - Speedtest_preprocessing (this section is optional to run, for the same reason as domain data)
+     1. ookla
    - Coast_preprocessing
      1. coast
    - Business_Listing
