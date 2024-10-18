@@ -141,7 +141,7 @@ For a summary of our approach and key findings of the project, please read and r
    - Business Listings
    - ANZSCIC Classification Data
 2. (Optional) Run the `domain_com_scrape.py` in `scripts` to scrape data from _domain.com.au_ \[This takes 5 hours to run and is not actively employed\]
-3. Run the `location_scraper` and the `school_scraper` in `scripts` to get location coordinates of schools and other school related data.
+3. Run the `school_scraper` and then `location_scraper` both in `scripts` to get location coordinates of schools and other school related data.
 4. Run in order and follow instructions inside the notebooks of these folders from `notebooks`:
    - ABS_data_preprocessing
      1. ABS_data_preprocessing
