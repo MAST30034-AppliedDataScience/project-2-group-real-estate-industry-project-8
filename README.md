@@ -23,7 +23,7 @@ Primary Objectives:
 
 ## Summary of the Project
 
-For a summary of our approach and key findings of the project, please read and run our notebook `Summary_Notebook`. This gives a high level summary of the pipeline along with limitations and assumptions made at every stage.
+For a summary of our approach and key findings of the project, please read our notebook `Summary_Notebook`. This gives a high level summary of the pipeline along with limitations and assumptions made at every stage.
 
 ## Datasets:
 
@@ -187,8 +187,8 @@ Running the pipeline requires following a lot of steps as outlined below.
 
 ### Google Drive
 
-You can find all the datasets in a google drive at this link ['https://drive.google.com/drive/folders/1GIqOVAzaCzuQMXGhnxioaJINnMQO8qPm']. We supply this drive as can take too long to run the scrapers or as a back up in case any unexpected issues come up when running notebooks in the project pipeline. Please note that this google drive can only be accessed via a unimelb email account.
+You can find all the datasets in a google drive at this link ['https://drive.google.com/drive/folders/1GIqOVAzaCzuQMXGhnxioaJINnMQO8qPm']. We supply this drive as it can take too long to run the scrapers or as a back up in case any unexpected issues come up when running notebooks in the project pipeline. Please note that this google drive can only be accessed via a unimelb email account.
 
 ### Scrap Work & Notes
 
-Our project contains a lot of scrap workings and notebooks, all of these files are contained in the folder `Scrap_Notebooks_and_Scripts` in `notebooks`. These are not necessary to run the pipeline or understand findings of the project but are supplied in the repository for any interested readers.
+Our project contains a lot of scrap workings and notebooks, all of these files are contained in the folder `Scrap_Notebooks_and_Scripts` in `notebooks`. These are not necessary to run the pipeline or to understand the findings of our project but are supplied in the repository for any interested readers.
