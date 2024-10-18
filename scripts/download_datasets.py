@@ -7,7 +7,7 @@ import zipfile
 import urllib.request
 
 
-output_dir = "./data/landing"
+output_dir = "../data/landing"
 
 # Make sure the directory exists
 os.makedirs(output_dir, exist_ok=True)
